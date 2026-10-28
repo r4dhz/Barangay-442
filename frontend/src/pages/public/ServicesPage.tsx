@@ -4,7 +4,7 @@ import { Wallet, Package, Calendar, Megaphone, FileText, Phone, MapPin, Clock, A
 import { PublicNavbar, PublicFooter } from '../../components/layout/PublicLayout';
 
 const services = [
-  { id: 'payouts', icon: Wallet, title: 'Payout Assistance', description: 'View upcoming payout schedules and assistance programs for qualified beneficiaries. Check your eligibility and claim schedule.', link: '/payouts', bg: 'bg-blue-50', iconColor: 'text-blue-600' },
+  { id: 'payouts', icon: Wallet, title: 'Payout Assistance', description: 'View upcoming payout schedules and assistance programs for qualified beneficiaries. View upcoming payout schedules, venues, and requirements for assistance programs.', link: '/payouts', bg: 'bg-blue-50', iconColor: 'text-blue-600' },
   { id: 'resources', icon: Package, title: 'Resource Assistance', description: 'Learn about available assistance programs including food packs, medicine, hygiene kits, and other resources distributed by the barangay.', link: '/resources', bg: 'bg-teal-50', iconColor: 'text-teal-600' },
   { id: 'events', icon: Calendar, title: 'Barangay Events', description: 'Discover community activities including assemblies, medical missions, sports festivals, livelihood trainings, and more.', link: '/events', bg: 'bg-violet-50', iconColor: 'text-violet-600' },
   { id: 'announcements', icon: Megaphone, title: 'Announcements', description: 'Stay updated with important barangay announcements, emergency advisories, community news, and official notices.', link: '/announcements', bg: 'bg-amber-50', iconColor: 'text-amber-600' },
