@@ -670,7 +670,7 @@ export default function HomePage() {
                 Register and Access Your Services Online
               </h2>
               <p className="text-white/75 text-base mb-6 max-w-lg mx-auto">
-                Create a MASID account to receive notifications, check your assistance status, and stay updated.
+                Create a MASID account to access your resident dashboard with the latest barangay announcements, upcoming events, and payout schedules.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Link to="/register" id="cta-register-btn" className="btn btn-secondary btn-lg">
