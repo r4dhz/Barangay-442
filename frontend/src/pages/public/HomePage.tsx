@@ -320,7 +320,7 @@ export default function HomePage() {
             {/* Stats Row */}
             <div className="mt-12 flex flex-wrap gap-6">
               {[
-                { label: 'Active Beneficiaries', value: '250+', icon: Users },
+                { label: 'Active Beneficiaries', value: '10+', icon: Users },
                 { label: 'Programs Running', value: '5', icon: TrendingUp },
                 { label: 'Events This Month', value: '6', icon: Calendar },
               ].map((stat) => (
