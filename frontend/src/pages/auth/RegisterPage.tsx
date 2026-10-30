@@ -16,7 +16,7 @@ const registerSchema = z.object({
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number'),
   confirmPassword: z.string(),
-  agreeToTerms: z.boolean().refine(val => val, 'You must agree to the terms'),
+  agreeToPrivacy: z.boolean().refine(val => val, 'You must agree to the Data Privacy Policy in accordance with R.A. 10173'),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Passwords do not match',
   path: ['confirmPassword'],
@@ -201,23 +201,20 @@ export default function RegisterPage() {
               {errors.confirmPassword && <span className="form-error"><AlertCircle size={12} />{errors.confirmPassword.message}</span>}
             </div>
 
-            {/* Terms */}
-            <div className="flex items-start gap-2.5">
+            {/* Data Privacy Agreement (R.A. 10173) */}
+            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-blue-50/60 border border-blue-100">
               <input
-                id="reg-terms"
+                id="reg-privacy"
                 type="checkbox"
-                {...register('agreeToTerms')}
-                className="w-4 h-4 mt-0.5 rounded accent-[#1e3a8a] cursor-pointer"
+                {...register('agreeToPrivacy')}
+                className="w-4 h-4 mt-0.5 rounded accent-[#1e3a8a] cursor-pointer flex-shrink-0"
               />
-              <label htmlFor="reg-terms" className="text-sm text-gray-600 cursor-pointer">
-                I agree to the{' '}
-                <Link to="/terms" className="text-[#1e3a8a] font-medium hover:underline">Terms of Service</Link>
-                {' '}and{' '}
-                <Link to="/privacy" className="text-[#1e3a8a] font-medium hover:underline">Privacy Policy</Link>
+              <label htmlFor="reg-privacy" className="text-xs text-gray-700 leading-relaxed cursor-pointer">
+                I agree to the <span className="font-semibold text-[#1e3a8a]">Barangay 442 Data Privacy Policy</span> in accordance with <span className="font-semibold text-gray-900">R.A. 10173</span> (Data Privacy Act of 2012) and consent to the collection and processing of my personal details for barangay e-services.
               </label>
             </div>
-            {errors.agreeToTerms && (
-              <span className="form-error -mt-2"><AlertCircle size={12} />{errors.agreeToTerms.message}</span>
+            {errors.agreeToPrivacy && (
+              <span className="form-error -mt-2"><AlertCircle size={12} />{errors.agreeToPrivacy.message}</span>
             )}
 
             <button id="register-submit" type="submit" disabled={isLoading} className="btn btn-primary btn-lg w-full mt-1">

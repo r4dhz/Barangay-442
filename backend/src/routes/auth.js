@@ -122,10 +122,10 @@ router.post('/register', (req, res) => {
       'INSERT INTO residents (user_id, first_name, last_name, address) VALUES (?, ?, ?, ?)'
     ).run(newUser.id, firstName, lastName, 'Barangay 442, Sampaloc, Manila');
 
-    // Log registration
+    // Log registration with Data Privacy Act compliance note
     db.prepare(
       'INSERT INTO audit_logs (user_id, user_name, action, module, details) VALUES (?, ?, ?, ?, ?)'
-    ).run(newUser.id, `${firstName} ${lastName}`, 'REGISTER', 'auth', 'New resident account created');
+    ).run(newUser.id, `${firstName} ${lastName}`, 'REGISTER', 'auth', 'New resident account created (Consented to R.A. 10173 Data Privacy Policy)');
 
     const accessToken = generateToken(newUser);
 

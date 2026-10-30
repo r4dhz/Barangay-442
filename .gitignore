@@ -1,3 +1,11 @@
+# Databases
+*.db
+*.db-shm
+*.db-wal
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
 # Dependencies
 node_modules/
 package-lock.json

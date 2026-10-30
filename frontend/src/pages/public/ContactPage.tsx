@@ -1,8 +1,48 @@
-import React from 'react';
-import { MapPin, Phone, Mail, Clock, Building2, Send, MessageSquare } from 'lucide-react';
+import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { MapPin, Phone, Mail, Clock, Building2, Send, MessageSquare, Loader2 } from 'lucide-react';
 import { PublicNavbar, PublicFooter } from '../../components/layout/PublicLayout';
 
 export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setLoading(true);
+    try {
+      const formData = new FormData(form);
+      const payload = {
+        access_key: 'fbb794a4-0893-45ae-b6bd-13f8e3455715',
+        name: `${formData.get('firstName') ?? ''} ${formData.get('lastName') ?? ''}`.trim(),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+      };
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        toast.success('Salamat! Naipadala na ang iyong mensahe sa Barangay.');
+        form.reset();
+      } else {
+        toast.error('May nangyaring error. Pakisubukang muli.');
+        console.error('Web3Forms error:', result);
+      }
+    } catch (err) {
+      toast.error('May nangyaring error. Pakisubukang muli.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <PublicNavbar />
@@ -54,42 +94,43 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="card">
             <h2 className="font-bold text-gray-900 text-lg mb-5">Send a Message</h2>
-            <form id="contact-form" className="flex flex-col gap-4">
+            <form id="contact-form" className="flex flex-col gap-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-3">
                 <div className="form-group">
                   <label className="form-label form-label-required">First Name</label>
-                  <input type="text" className="form-input" placeholder="Juan" />
+                  <input type="text" name="firstName" className="form-input" placeholder="Juan" required />
                 </div>
                 <div className="form-group">
                   <label className="form-label form-label-required">Last Name</label>
-                  <input type="text" className="form-input" placeholder="Dela Cruz" />
+                  <input type="text" name="lastName" className="form-input" placeholder="Dela Cruz" required />
                 </div>
               </div>
               <div className="form-group">
                 <label className="form-label form-label-required">Email Address</label>
-                <input type="email" className="form-input" placeholder="you@example.com" />
+                <input type="email" name="email" className="form-input" placeholder="you@example.com" required />
               </div>
               <div className="form-group">
                 <label className="form-label">Phone Number</label>
-                <input type="tel" className="form-input" placeholder="09XX XXX XXXX" />
+                <input type="tel" name="phone" className="form-input" placeholder="09XX XXX XXXX" />
               </div>
               <div className="form-group">
                 <label className="form-label form-label-required">Subject</label>
-                <select className="form-input">
+                <select name="subject" className="form-input" required>
                   <option value="">Select a subject...</option>
-                  <option value="inquiry">General Inquiry</option>
-                  <option value="assistance">Assistance Request</option>
-                  <option value="complaint">Complaint</option>
-                  <option value="suggestion">Suggestion</option>
-                  <option value="other">Other</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Assistance Request">Assistance Request</option>
+                  <option value="Complaint">Complaint</option>
+                  <option value="Suggestion">Suggestion</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               <div className="form-group">
                 <label className="form-label form-label-required">Message</label>
-                <textarea className="form-input" rows={4} placeholder="Write your message here..." />
+                <textarea name="message" className="form-input" rows={4} placeholder="Write your message here..." required />
               </div>
-              <button id="contact-submit-btn" type="submit" className="btn btn-primary btn-lg w-full">
-                <Send size={17} /> Send Message
+              <button id="contact-submit-btn" type="submit" className="btn btn-primary btn-lg w-full" disabled={loading}>
+                {loading ? <Loader2 size={17} className="animate-spin" /> : <Send size={17} />}
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
